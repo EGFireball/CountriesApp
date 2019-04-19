@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">CountryApp</string>
+    <string name="google_api_key">AIzaSyCqfxEOoObjJXLJi9w5SmMcuHCy81UBYgo</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="country_capital">Capital city: %s</string>
+    <string name="country_info">In %1$s live %2$d people. The country area is %3$s square kilometers.</string>
+    <string name="search_hint">Search...</string>
+</resources>

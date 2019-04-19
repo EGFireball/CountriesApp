@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background">
+
+    <TextView
+            android:id="@+id/countryName"
+            style="@style/Title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toEndOf="@id/startGl"
+            app:layout_constraintTop_toTopOf="parent"
+            android:gravity="center"
+            app:layout_constraintEnd_toStartOf="@id/endGl"
+            tools:text="Bulgaria"/>
+
+    <TextView
+            android:id="@+id/capital"
+            style="@style/Subtitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:layout_constraintStart_toEndOf="@id/startGl"
+            app:layout_constraintEnd_toStartOf="@id/endGl"
+            app:layout_constraintTop_toBottomOf="@id/countryName"
+            tools:text="capital city: Sofia"/>
+
+    <com.google.android.gms.maps.MapView
+            android:id="@+id/map"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintTop_toBottomOf="@id/capital"
+            app:layout_constraintBottom_toTopOf="@id/countryInfo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:apiKey="@string/google_api_key"
+            android:layout_marginTop="16dp"/>
+
+    <TextView
+            android:id="@+id/countryInfo"
+            style="@style/Content"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
+            android:gravity="center"
+            android:layout_gravity="end"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintStart_toEndOf="@id/startGl"
+            app:layout_constraintEnd_toStartOf="@id/endGl"
+            app:layout_constraintTop_toBottomOf="@id/map"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="In Bulgaria lives 8000000 people. "/>
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/startGl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="16dp"/>
+
+    <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/endGl"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="16dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
