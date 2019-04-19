@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">CountryApp</string>
+    <string name="country_capital">Столица: %s</string>
+    <string name="country_info">Населението на %1$s е %2$d души. Площта на страната е %3$s крадратни километра.</string>
+    <string name="search_hint">Търсене…</string>
+    <string name="country_list">Списък с държави</string>
+    <string name="population_text">%1$s души</string>
+</resources>

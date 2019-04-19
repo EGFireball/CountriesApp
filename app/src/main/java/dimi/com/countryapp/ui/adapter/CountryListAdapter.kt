@@ -27,7 +27,7 @@ class CountryListAdapter(private val activity: Activity?): RecyclerView.Adapter<
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val country = items[position]
         holder.countryName.text = country.name
-        holder.population.text = "${country.population} people"
+        holder.population.text = activity?.getString(R.string.population_text, country.population.toString())
 
         holder.itemView.setOnClickListener {
             val action = CountryListFragmentDirections.actionCountryListFragmentToCountryFragment(items[position])
@@ -61,7 +61,10 @@ class CountryListAdapter(private val activity: Activity?): RecyclerView.Adapter<
             }
 
             override fun publishResults(charSequence: CharSequence, filterResults: FilterResults) {
-                updateData(filterResults.values as List<Country>, fromServer = false)
+                updateData(
+                    filterResults.values as List<Country>,
+                    fromServer = false
+                )
             }
         }
     }

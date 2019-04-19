@@ -21,5 +21,4 @@ class CountryApp : Application() {
             .mainModule(MainModule(this))
             .build()
     }
-
 }

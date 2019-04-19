@@ -8,6 +8,7 @@ import okhttp3.OkHttpClient
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.junit.After
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -45,13 +46,12 @@ class CountryTest {
     @Test
     fun testGetCountries() {
         val testObserver = TestObserver<List<CountryDto>>()
-        server.enqueue(
-            MockResponse()
-                .setResponseCode(200)
-                .setBody(getJson("json/country.json"))
-        )
-
-
+//        server.enqueue(
+//            MockResponse()
+//                .setResponseCode(200)
+//                .setBody(getJson("json/country.json"))
+//        )
+        assertTrue(repository.getCountries().value != null)
     }
 
     @After

@@ -15,6 +15,7 @@
             app:layout_constraintStart_toEndOf="@id/startGl"
             app:layout_constraintTop_toTopOf="parent"
             android:gravity="center"
+            android:layout_marginTop="16dp"
             app:layout_constraintEnd_toStartOf="@id/endGl"
             tools:text="Bulgaria"/>
 

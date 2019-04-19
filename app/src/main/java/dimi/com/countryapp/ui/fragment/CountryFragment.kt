@@ -3,6 +3,7 @@ package dimi.com.countryapp.ui.fragment
 import android.location.Geocoder
 import android.os.Bundle
 import android.view.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -28,9 +29,8 @@ class CountryFragment : Fragment(), GoogleMap.OnMapLoadedCallback, OnMapReadyCal
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
         country = arguments?.let { CountryFragmentArgs.fromBundle(it).country }
-
+        (activity as AppCompatActivity).supportActionBar?.title = country?.name
         countryName.text = country?.name
         capital.text = getString(R.string.country_capital, country?.capital)
         countryInfo.text = getString(R.string.country_info, country?.name, country?.population, country?.area.toString())
