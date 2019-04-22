@@ -1,10 +1,12 @@
 package dimi.com.countryapp.ui.fragment
 
 import android.app.SearchManager
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Context.SEARCH_SERVICE
 import android.graphics.drawable.ClipDrawable.HORIZONTAL
 import android.os.Bundle
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -76,7 +78,7 @@ class CountryListFragment: Fragment() {
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
-                listFragment.countriesAdapter.filter.filter(query)
+                hideKeyboard()
                 return false
             }
 
@@ -104,5 +106,11 @@ class CountryListFragment: Fragment() {
         })
         searchView.setQuery("", false)
         searchView.isIconified = true
+    }
+
+    private fun hideKeyboard() {
+        searchView.clearFocus()
+        val im = activity?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        im.hideSoftInputFromWindow(searchView.windowToken, InputMethodManager.HIDE_NOT_ALWAYS)
     }
 }
