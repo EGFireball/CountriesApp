@@ -41,14 +41,31 @@ class CountryListFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.country_list)
+        hideList(getString(R.string.loading_data_text))
         countriesAdapter = CountryListAdapter(activity)
         countriesList.layoutManager = LinearLayoutManager(context)
         countriesList.adapter = countriesAdapter
         countriesList.addItemDecoration(DividerItemDecoration(context, HORIZONTAL))
         countriesAdapter.notifyDataSetChanged()
         mainVm.getAllCountries().observe(this, Observer { countries ->
-            setCountries(countries)
+            if (countries.isEmpty()) {
+                hideList(getString(R.string.empty_list_text))
+            } else {
+                setCountries(countries)
+                showList()
+            }
         })
+    }
+
+    private fun showList() {
+        emptyListView.visibility = View.GONE
+        countriesList.visibility = View.VISIBLE
+    }
+
+    private fun hideList(text: String) {
+        countriesList.visibility = View.GONE
+        emptyListView.text = text
+        emptyListView.visibility = View.VISIBLE
     }
 
     private fun setCountries(countries: List<Country>) {

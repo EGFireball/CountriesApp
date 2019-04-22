@@ -6,4 +6,6 @@
     <string name="search_hint">Search…</string>
     <string name="country_list">Country List</string>
     <string name="population_text">%1$s people</string>
+    <string name="empty_list_text">No data fount</string>
+    <string name="loading_data_text">Loading… Please wait</string>
 </resources>

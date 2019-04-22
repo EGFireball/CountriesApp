@@ -6,4 +6,6 @@
     <string name="search_hint">Търсене…</string>
     <string name="country_list">Списък с държави</string>
     <string name="population_text">%1$s души</string>
+    <string name="empty_list_text">Няма намерени данни</string>
+    <string name="loading_data_text">Зареждане… Моля, изчакайте</string>
 </resources>
