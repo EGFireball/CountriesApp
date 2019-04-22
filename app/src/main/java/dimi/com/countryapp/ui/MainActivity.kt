@@ -1,14 +1,13 @@
-package dimi.com.countryapp
+package dimi.com.countryapp.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SearchView
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
+import dimi.com.countryapp.CountryApp
+import dimi.com.countryapp.R
 
 class MainActivity : AppCompatActivity() {
-
-    lateinit var searchView: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

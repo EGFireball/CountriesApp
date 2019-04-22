@@ -14,8 +14,8 @@ import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import dimi.com.countryapp.CountryApp
-import dimi.com.countryapp.MainActivity
 import dimi.com.countryapp.R
+import dimi.com.countryapp.domain.Country
 import dimi.com.countryapp.ui.adapter.CountryListAdapter
 import dimi.com.countryapp.ui.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.country_list_fragment.*
@@ -24,6 +24,7 @@ class CountryListFragment: Fragment() {
 
     lateinit var mainVm: MainViewModel
     lateinit var countriesAdapter: CountryListAdapter
+    lateinit var searchView: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,40 +39,42 @@ class CountryListFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.country_list)
-        mainVm.getAllCountries()
         countriesAdapter = CountryListAdapter(activity)
         countriesList.layoutManager = LinearLayoutManager(context)
         countriesList.adapter = countriesAdapter
         countriesList.addItemDecoration(DividerItemDecoration(context, HORIZONTAL))
         countriesAdapter.notifyDataSetChanged()
         mainVm.getAllCountries().observe(this, Observer { countries ->
-            if (!countries.isNullOrEmpty()) {
-                val mutableCountries = countries.toMutableList()
-                mutableCountries.sortByDescending { country -> country.population }
-                countriesAdapter.updateData(mutableCountries, fromServer = true)
-            }
+            setCountries(countries)
         })
+    }
+
+    private fun setCountries(countries: List<Country>) {
+        if (!countries.isNullOrEmpty()) {
+            val mutableCountries = countries.toMutableList()
+            mutableCountries.sortByDescending { country -> country.population }
+            countriesAdapter.updateData(mutableCountries, fromServer = true)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.main_menu, menu)
 
-        val act: MainActivity = activity as MainActivity
+        val searchManager = activity?.getSystemService(SEARCH_SERVICE) as SearchManager?
+        searchView = menu.findItem(R.id.action_search)?.actionView as SearchView
 
-        val searchManager = act.getSystemService(SEARCH_SERVICE) as SearchManager?
-        act.searchView = menu.findItem(R.id.action_search)?.actionView as SearchView
-        act.searchView.setSearchableInfo(
+        searchView.setSearchableInfo(
             searchManager!!
-                .getSearchableInfo(act.componentName)
+                .getSearchableInfo(activity?.componentName)
         )
 
-        act.searchView.maxWidth = Integer.MAX_VALUE
+        searchView.maxWidth = Integer.MAX_VALUE
 
-        val navHostFragment = act.supportFragmentManager.fragments.first() as? NavHostFragment
+        val navHostFragment = activity?.supportFragmentManager?.fragments?.first() as? NavHostFragment
         val listFragment = navHostFragment?.childFragmentManager?.fragments?.get(0) as CountryListFragment
 
-        act.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 listFragment.countriesAdapter.filter.filter(query)
                 return false
@@ -84,12 +87,22 @@ class CountryListFragment: Fragment() {
         })
     }
 
-
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val id = item.itemId
-        return if (id == R.id.action_search) {
-            true
-        } else super.onOptionsItemSelected(item)
+        return when (item.itemId) {
+            R.id.action_search -> true
+            R.id.action_refresh -> {
+                refreshList()
+                return false
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
 
+    private fun refreshList() {
+        mainVm.refreshCountriesData().observe(this, Observer { countries ->
+            setCountries(countries)
+        })
+        searchView.setQuery("", false)
+        searchView.isIconified = true
     }
 }

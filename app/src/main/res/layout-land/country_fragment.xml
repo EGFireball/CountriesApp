@@ -12,11 +12,12 @@
             style="@style/Title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/startGl"
-            app:layout_constraintTop_toTopOf="parent"
             android:gravity="center"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toStartOf="@id/endGl"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/middleGl"
+            app:layout_constraintBottom_toTopOf="@id/capital"
+            app:layout_constraintVertical_chainStyle="packed"
             tools:text="Bulgaria"/>
 
     <TextView
@@ -25,21 +26,23 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            app:layout_constraintStart_toEndOf="@id/startGl"
-            app:layout_constraintEnd_toStartOf="@id/endGl"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/middleGl"
             app:layout_constraintTop_toBottomOf="@id/countryName"
+            app:layout_constraintBottom_toTopOf="@+id/countryInfo"
             tools:text="capital city: Sofia"/>
 
     <com.google.android.gms.maps.MapView
             android:id="@+id/map"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/capital"
-            app:layout_constraintBottom_toTopOf="@id/countryInfo"
-            app:layout_constraintStart_toEndOf="@id/startGl"
-            app:layout_constraintEnd_toStartOf="@id/endGl"
-            android:apiKey="@string/google_api_key"
-            android:layout_marginTop="16dp"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/middleGl"
+            android:layout_margin="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:apiKey="@string/google_api_key"/>
 
     <TextView
             android:id="@+id/countryInfo"
@@ -52,24 +55,17 @@
             android:layout_gravity="end"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="16dp"
-            app:layout_constraintStart_toEndOf="@id/startGl"
-            app:layout_constraintEnd_toStartOf="@id/endGl"
-            app:layout_constraintTop_toBottomOf="@id/map"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/middleGl"
+            app:layout_constraintTop_toBottomOf="@id/capital"
             app:layout_constraintBottom_toBottomOf="parent"
             tools:text="In Bulgaria lives 8000000 people. "/>
 
     <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/startGl"
+            android:id="@+id/middleGl"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_constraintGuide_begin="16dp"/>
-
-    <androidx.constraintlayout.widget.Guideline
-            android:id="@+id/endGl"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            app:layout_constraintGuide_end="16dp"/>
+            app:layout_constraintGuide_percent="0.5"
+            android:orientation="vertical"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
