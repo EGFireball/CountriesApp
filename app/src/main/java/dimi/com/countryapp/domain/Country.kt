@@ -14,6 +14,7 @@ class Country() : Parcelable {
     var timezones: List<String>? = null
     var languages: List<String>? = null
     var numericCode: String? = null
+    var flagImageUrl: String? = null
 
     constructor(parcel: Parcel) : this() {
         this.name = parcel.readString()
@@ -24,6 +25,7 @@ class Country() : Parcelable {
         this.timezones = parcel.createStringArrayList()
         this.languages = parcel.createStringArrayList()
         this.numericCode = parcel.readString()
+        this.flagImageUrl = parcel.readString()
     }
 
     constructor(dto: CountryDto): this() {
@@ -35,6 +37,7 @@ class Country() : Parcelable {
         this.timezones = dto.timezones
         this.languages = dto.languages.map { languageDto -> languageDto.name }
         this.numericCode = dto.numericCode
+        this.flagImageUrl = dto.flag
     }
 
     override fun writeToParcel(dest: Parcel?, flag: Int) {
@@ -46,6 +49,7 @@ class Country() : Parcelable {
         dest?.writeStringList(timezones)
         dest?.writeStringList(languages)
         dest?.writeString(numericCode)
+        dest?.writeString(flagImageUrl)
     }
 
     override fun describeContents(): Int {

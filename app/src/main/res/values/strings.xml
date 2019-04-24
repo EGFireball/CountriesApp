@@ -6,6 +6,7 @@
     <string name="search_hint">Search…</string>
     <string name="country_list">Country List</string>
     <string name="population_text">%1$s people</string>
-    <string name="empty_list_text">No data fount</string>
+    <string name="empty_list_text">No data found</string>
     <string name="loading_data_text">Loading… Please wait</string>
+    <string name="map_no_network">Map can not be shown. Please, check your Internet connection</string>
 </resources>

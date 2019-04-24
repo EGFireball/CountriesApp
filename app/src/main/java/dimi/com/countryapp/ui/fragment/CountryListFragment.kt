@@ -22,7 +22,7 @@ import dimi.com.countryapp.ui.adapter.CountryListAdapter
 import dimi.com.countryapp.ui.viewmodel.MainViewModel
 import kotlinx.android.synthetic.main.country_list_fragment.*
 
-class CountryListFragment: Fragment() {
+class CountryListFragment : Fragment() {
 
     lateinit var mainVm: MainViewModel
     lateinit var countriesAdapter: CountryListAdapter
@@ -37,24 +37,30 @@ class CountryListFragment: Fragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-            inflater.inflate(R.layout.country_list_fragment, container, false)
+        inflater.inflate(R.layout.country_list_fragment, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (activity as AppCompatActivity).supportActionBar?.title = getString(R.string.country_list)
         hideList(getString(R.string.loading_data_text))
-        countriesAdapter = CountryListAdapter(activity)
+        countriesAdapter = CountryListAdapter()
         countriesList.layoutManager = LinearLayoutManager(context)
         countriesList.adapter = countriesAdapter
         countriesList.addItemDecoration(DividerItemDecoration(context, HORIZONTAL))
         countriesAdapter.notifyDataSetChanged()
         mainVm.getAllCountries().observe(this, Observer { countries ->
-            if (countries.isEmpty()) {
-                hideList(getString(R.string.empty_list_text))
-            } else {
-                setCountries(countries)
-                showList()
-            }
+            setCountries(countries)
         })
+    }
+
+    private fun setCountries(countries: List<Country>) {
+        if (countries.isEmpty()) {
+            hideList(getString(R.string.empty_list_text))
+        } else {
+            val mutableCountries = countries.toMutableList()
+            mutableCountries.sortByDescending { country -> country.population }
+            countriesAdapter.updateData(mutableCountries, fromServer = true)
+            showList()
+        }
     }
 
     private fun showList() {
@@ -66,14 +72,6 @@ class CountryListFragment: Fragment() {
         countriesList.visibility = View.GONE
         emptyListView.text = text
         emptyListView.visibility = View.VISIBLE
-    }
-
-    private fun setCountries(countries: List<Country>) {
-        if (!countries.isNullOrEmpty()) {
-            val mutableCountries = countries.toMutableList()
-            mutableCountries.sortByDescending { country -> country.population }
-            countriesAdapter.updateData(mutableCountries, fromServer = true)
-        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -100,6 +98,9 @@ class CountryListFragment: Fragment() {
             }
 
             override fun onQueryTextChange(query: String?): Boolean {
+                if (query?.length!! < 3) {
+                    return true
+                }
                 listFragment.countriesAdapter.filter.filter(query)
                 return false
             }

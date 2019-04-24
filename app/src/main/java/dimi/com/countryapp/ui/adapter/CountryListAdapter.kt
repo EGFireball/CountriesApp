@@ -1,6 +1,5 @@
 package dimi.com.countryapp.ui.adapter
 
-import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,27 +10,29 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import dimi.com.countryapp.R
 import dimi.com.countryapp.domain.Country
+import dimi.com.countryapp.ui.MainActivity
 import dimi.com.countryapp.ui.fragment.CountryListFragmentDirections
 import kotlinx.android.synthetic.main.country_list_item.view.*
 
-class CountryListAdapter(private val activity: Activity?): RecyclerView.Adapter<CountryListAdapter.ViewHolder>(), Filterable {
+class CountryListAdapter: RecyclerView.Adapter<CountryListAdapter.ViewHolder>(), Filterable {
 
     private lateinit var originalCountries: List<Country>
     private var items: List<Country> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-        ViewHolder(LayoutInflater.from(activity).inflate(R.layout.country_list_item, parent, false))
+        ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.country_list_item, parent, false))
 
     override fun getItemCount(): Int = items.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        val activity: MainActivity = holder.itemView.context as MainActivity
         val country = items[position]
         holder.countryName.text = country.name
-        holder.population.text = activity?.getString(R.string.population_text, country.population.toString())
+        holder.population.text = activity.getString(R.string.population_text, country.population.toString())
 
         holder.itemView.setOnClickListener {
             val action = CountryListFragmentDirections.actionCountryListFragmentToCountryFragment(items[position])
-            activity?.let { Navigation.findNavController(it, R.id.nav_host_fragment).navigate(action) }
+            activity.let { Navigation.findNavController(it, R.id.nav_host_fragment).navigate(action) }
         }
     }
 
@@ -49,11 +50,7 @@ class CountryListAdapter(private val activity: Activity?): RecyclerView.Adapter<
                 val itemsFiltered: List<Country>
                 val charString = charSequence.toString()
 
-                itemsFiltered = if (charString.length < 3) {
-                    originalCountries
-                } else {
-                    originalCountries.filter { country -> country.name!!.toLowerCase().contains(charString.toLowerCase()) }
-                }
+                itemsFiltered = originalCountries.filter { country -> country.name!!.toLowerCase().contains(charString.toLowerCase()) }
 
                 val filterResults = FilterResults()
                 filterResults.values = itemsFiltered

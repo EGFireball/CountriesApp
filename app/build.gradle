@@ -3,7 +3,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs'
-//apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 28
@@ -25,7 +24,7 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha04'
     implementation 'androidx.core:core-ktx:1.1.0-alpha05'
@@ -35,49 +34,44 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.test.espresso:espresso-idling-resource:3.2.0-alpha04'
-
     testImplementation 'junit:junit:4.12'
     // Optional -- Mockito framework
     testImplementation 'org.mockito:mockito-core:2.8.47'
     testImplementation 'org.mockito:mockito-inline:2.8.47'
     testImplementation 'android.arch.core:core-testing:1.1.1'
-
     // Espresso
     androidTestImplementation 'androidx.test:runner:1.2.0-alpha04'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha04'
     androidTestImplementation 'androidx.test:rules:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.2.0-alpha04'
-
     /* Android Architecture Component - ConstraintLayout  */
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-
     /* Android Architecture Component - LiveData & ViewModel  */
     implementation "android.arch.lifecycle:extensions:$lifecycle_version"
-
     /* Dagger2 - We are going to use dagger.android which includes
-     * support for Activity and fragment injection so we need to include
-     * the following dependencies */
+         * support for Activity and fragment injection so we need to include
+         * the following dependencies */
     implementation "com.google.dagger:dagger-android:$dagger2_version"
     implementation "com.google.dagger:dagger-android-support:$dagger2_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger2_version"
-
     /* Dagger2 - default dependency */
     kapt "com.google.dagger:dagger-compiler:$dagger2_version"
-
     /* Add Kotlin support */
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.30'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.1'
-
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
     implementation 'com.squareup.okhttp3:logging-interceptor:3.9.1'
-    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
-
+    implementation 'com.squareup.okhttp3:okhttp:3.12.1'
     // Navigation
-    implementation "android.arch.navigation:navigation-fragment:1.0.0"
-    implementation "android.arch.navigation:navigation-ui:1.0.0"
-
+    implementation 'android.arch.navigation:navigation-fragment:1.0.0'
+    implementation 'android.arch.navigation:navigation-ui:1.0.0'
     // MapView
     implementation 'com.google.android.gms:play-services-maps:16.1.0'
+    // Glide
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    kapt 'com.github.bumptech.glide:compiler:4.9.0'
+    // SVG
+    implementation files('libs/androidsvg-1.2.1.jar')
 }

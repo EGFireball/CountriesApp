@@ -8,4 +8,5 @@
     <string name="population_text">%1$s души</string>
     <string name="empty_list_text">Няма намерени данни</string>
     <string name="loading_data_text">Зареждане… Моля, изчакайте</string>
+    <string name="map_no_network">Картата не може да бъде показана. Моля, проверете вашата интернет връзка.</string>
 </resources>
