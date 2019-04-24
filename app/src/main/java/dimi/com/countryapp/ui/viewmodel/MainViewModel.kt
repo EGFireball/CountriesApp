@@ -7,7 +7,7 @@ import dimi.com.countryapp.domain.Country
 import dimi.com.countryapp.domain.CountryRepository
 import javax.inject.Inject
 
-class MainViewModel: ViewModel() {
+class MainViewModel : ViewModel() {
 
     @Inject
     lateinit var countryRepository: CountryRepository

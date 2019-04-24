@@ -41,7 +41,8 @@ class CountryFragment : Fragment(), GoogleMap.OnMapLoadedCallback, OnMapReadyCal
         (activity as AppCompatActivity).supportActionBar?.title = country?.name
         countryName.text = country?.name
         capital.text = getString(R.string.country_capital, country?.capital)
-        countryInfo.text = getString(R.string.country_info, country?.name, country?.population, country?.area.toString())
+        countryInfo.text =
+            getString(R.string.country_info, country?.name, country?.population, country?.area.toString())
 
         loadFlag()
         initMapView(savedInstanceState)
@@ -81,7 +82,7 @@ class CountryFragment : Fragment(), GoogleMap.OnMapLoadedCallback, OnMapReadyCal
                 val capitalPosition = LatLng(addresses[0].latitude, addresses[0].longitude)
                 gmap?.addMarker(MarkerOptions().position(capitalPosition).title("${country?.capital}"))
                 gmap?.moveCamera(CameraUpdateFactory.newLatLng(capitalPosition))
-            } catch(e: Exception) {
+            } catch (e: Exception) {
                 e.printStackTrace()
                 map.invalidate()
                 initMapView(arguments)

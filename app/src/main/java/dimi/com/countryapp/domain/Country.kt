@@ -28,7 +28,7 @@ class Country() : Parcelable {
         this.flagImageUrl = parcel.readString()
     }
 
-    constructor(dto: CountryDto): this() {
+    constructor(dto: CountryDto) : this() {
         this.name = dto.name
         this.capital = dto.capital
         this.population = dto.population
