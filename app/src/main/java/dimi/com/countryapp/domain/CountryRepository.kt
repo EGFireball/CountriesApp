@@ -17,7 +17,7 @@ class CountryRepository @Inject constructor(private val countryApi: CountryApi) 
         val countries: MutableLiveData<List<Country>> = MutableLiveData()
         val call = countryApi.getAllCountries()
 
-        CoroutineScope(Dispatchers.IO).launch {
+        //CoroutineScope(Dispatchers.IO).launch {
             call.enqueue(object : Callback<List<CountryDto>> {
 
                 override fun onResponse(call: Call<List<CountryDto>>, response: Response<List<CountryDto>>) {
@@ -36,7 +36,7 @@ class CountryRepository @Inject constructor(private val countryApi: CountryApi) 
                     countries.value = listOf()
                 }
             })
-        }
+        //}
         return countries
     }
 }

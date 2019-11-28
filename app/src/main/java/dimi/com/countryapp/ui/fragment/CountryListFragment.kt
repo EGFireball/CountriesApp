@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -24,19 +25,24 @@ import kotlinx.android.synthetic.main.country_list_fragment.*
 
 class CountryListFragment : Fragment() {
 
-    lateinit var mainVm: MainViewModel
+    private lateinit var mainVm: MainViewModel
     lateinit var countriesAdapter: CountryListAdapter
-    lateinit var searchView: SearchView
+    private lateinit var searchView: SearchView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         CountryApp.appComponent.inject(this)
-        mainVm = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        //ViewModelProviders.of(this).get(MainViewModel::class.java)
+        mainVm = ViewModelProvider(this).get(MainViewModel::class.java)
         CountryApp.appComponent.inject(mainVm)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? =
         inflater.inflate(R.layout.country_list_fragment, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -82,14 +88,15 @@ class CountryListFragment : Fragment() {
         searchView = menu.findItem(R.id.action_search)?.actionView as SearchView
 
         searchView.setSearchableInfo(
-            searchManager!!
-                .getSearchableInfo(activity?.componentName)
+            searchManager?.let { it.getSearchableInfo(activity?.componentName) }
         )
 
         searchView.maxWidth = Integer.MAX_VALUE
 
-        val navHostFragment = activity?.supportFragmentManager?.fragments?.first() as? NavHostFragment
-        val listFragment = navHostFragment?.childFragmentManager?.fragments?.get(0) as CountryListFragment
+        val navHostFragment =
+            activity?.supportFragmentManager?.fragments?.first() as? NavHostFragment
+        val listFragment =
+            navHostFragment?.childFragmentManager?.fragments?.get(0) as CountryListFragment
 
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
@@ -98,8 +105,10 @@ class CountryListFragment : Fragment() {
             }
 
             override fun onQueryTextChange(query: String?): Boolean {
-                if (query?.length!! < 3) {
-                    return true
+                query?.length?. let {
+                    if (it < 3) {
+                        return true
+                    }
                 }
                 listFragment.countriesAdapter.filter.filter(query)
                 return false
