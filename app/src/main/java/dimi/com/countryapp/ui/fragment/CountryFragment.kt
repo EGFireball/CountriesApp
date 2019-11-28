@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.country_fragment.*
 class CountryFragment : Fragment(), GoogleMap.OnMapLoadedCallback, OnMapReadyCallback {
 
     private var country: Country? = null
+    //private lateinit var geofencingClient: GeofencingClient
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.country_fragment, container, false)
