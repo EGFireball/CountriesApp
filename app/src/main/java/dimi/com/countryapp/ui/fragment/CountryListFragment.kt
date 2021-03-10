@@ -5,37 +5,53 @@ import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Context.SEARCH_SERVICE
 import android.graphics.drawable.ClipDrawable.HORIZONTAL
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import dimi.com.countryapp.CountryApp
 import dimi.com.countryapp.R
 import dimi.com.countryapp.domain.Country
+import dimi.com.countryapp.ui.MainActivity
 import dimi.com.countryapp.ui.adapter.CountryListAdapter
 import dimi.com.countryapp.ui.viewmodel.MainViewModel
+import dimi.com.countryapp.ui.viewmodel.MainViewModelKoin
 import kotlinx.android.synthetic.main.country_list_fragment.*
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.dsl.module
+
+val fragmentModule = module {
+    factory { CountryListFragment() }
+}
 
 class CountryListFragment : Fragment() {
 
-    private lateinit var mainVm: MainViewModel
+//    private lateinit var mainVm: MainViewModel
+    private val mainVmKoin: MainViewModelKoin by viewModel()
     lateinit var countriesAdapter: CountryListAdapter
     private lateinit var searchView: SearchView
+
+    private val observer = Observer<List<Country>> {
+        //Log.e("Countries", "${it.size}")
+        setCountries(it)
+        //fragmentInfo.text = "Temperature at ${it.name} is ${it.temp.temp} celcius"
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         CountryApp.appComponent.inject(this)
         //ViewModelProviders.of(this).get(MainViewModel::class.java)
-        mainVm = ViewModelProvider(this).get(MainViewModel::class.java)
-        CountryApp.appComponent.inject(mainVm)
+//        mainVm = ViewModelProvider(this).get(MainViewModel::class.java)
+//        CountryApp.appComponent.inject(mainVm)
     }
 
     override fun onCreateView(
@@ -53,9 +69,16 @@ class CountryListFragment : Fragment() {
         countriesList.adapter = countriesAdapter
         countriesList.addItemDecoration(DividerItemDecoration(context, HORIZONTAL))
         countriesAdapter.notifyDataSetChanged()
-        mainVm.getAllCountries().observe(this, Observer { countries ->
-            setCountries(countries)
-        })
+//        mainVm.getAllCountries().observe(activity as MainActivity, { countries ->
+//            setCountries(countries)
+//        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        mainVmKoin.countries.value?.let { setCountries(it) } ?: run {
+            mainVmKoin.countries.observe(activity as MainActivity, observer)
+        }
     }
 
     private fun setCountries(countries: List<Country>) {
@@ -88,7 +111,7 @@ class CountryListFragment : Fragment() {
         searchView = menu.findItem(R.id.action_search)?.actionView as SearchView
 
         searchView.setSearchableInfo(
-            searchManager?.let { it.getSearchableInfo(activity?.componentName) }
+            searchManager?.getSearchableInfo(activity?.componentName)
         )
 
         searchView.maxWidth = Integer.MAX_VALUE
@@ -128,9 +151,10 @@ class CountryListFragment : Fragment() {
     }
 
     private fun refreshList() {
-        mainVm.refreshCountriesData().observe(this, Observer { countries ->
-            setCountries(countries)
-        })
+//        mainVm.refreshCountriesData().observe(this, { countries ->
+//            setCountries(countries)
+//        })
+        mainVmKoin.countries.observe(activity as MainActivity, observer)
         searchView.setQuery("", false)
         searchView.isIconified = true
     }

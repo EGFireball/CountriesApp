@@ -1,16 +1,19 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.4.21'
+    ext.kotlin_version = '1.4.31'
     ext.lifecycle_version = '1.1.1'
     ext.retrofit_version = '2.6.2'
     ext.dagger2_version = '2.22.1'
     ext.room_version = '2.1.0-alpha06'
+    // Current version
+    //ext.koin_version= '3.0.1-beta-1'
 
     repositories {
         google()
+        mavenCentral()
         jcenter()
-        maven { url "https://maven.google.com" }
+        //maven { url "https://maven.google.com" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.2'
@@ -25,9 +28,9 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
         mavenCentral()
-        maven { url "https://maven.google.com" }
+        jcenter()
+        //maven { url "https://maven.google.com" }
     }
 }
 

@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-//apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'androidx.navigation.safeargs'
 
@@ -9,6 +9,9 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
     defaultConfig {
         applicationId "dimi.com.countryapp"
@@ -41,7 +44,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'androidx.test.espresso:espresso-idling-resource:3.4.0-alpha04'
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.2'
     // Optional -- Mockito framework
     testImplementation 'org.mockito:mockito-core:2.19.0'
     testImplementation 'org.mockito:mockito-inline:2.8.47'
@@ -55,6 +58,10 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
     /* Android Architecture Component - LiveData & ViewModel  */
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0"
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.0"
     /* Dagger2 - We are going to use dagger.android which includes
          * support for Activity and fragment injection so we need to include
          * the following dependencies */
@@ -84,4 +91,24 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services-base:17.6.0'
     implementation 'com.google.android.gms:play-services-location:18.0.0'
+
+    // Koin
+
+    implementation "org.koin:koin-android:2.0.1"
+    // use org.koin:koin-android-viewmodel instead for non-androidx projects!
+    implementation "org.koin:koin-androidx-viewmodel:2.0.1"
+    implementation "org.koin:koin-core:2.0.1"
+
+    //implementation "org.koin:koin-android:$koin_version"
+    //implementation "org.koin:koin-android-viewmodel:${koin_version}"
+
+    // Koin main features for Android (Scope,ViewModel ...)
+//    implementation "io.insert-koin:koin-android:$koin_version"
+//    implementation "io.insert-koin:koin-android-viewmodel:$koin_version"
+//    // Koin Android - experimental builder extensions
+//    implementation "io.insert-koin:koin-android-ext:3.0.1-beta-1"
+//    // Koin for Jetpack WorkManager
+//    implementation "io.insert-koin:koin-androidx-workmanager:$koin_version"
+//    // Koin for Jetpack Compose (unstable version)
+//    implementation "io.insert-koin:koin-androidx-compose:$koin_version"
 }

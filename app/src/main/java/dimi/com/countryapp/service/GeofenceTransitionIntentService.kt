@@ -1,17 +1,10 @@
 package dimi.com.countryapp.service
 
+import android.app.IntentService
 import android.content.Intent
+import android.text.TextUtils
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingEvent
-import android.R
-import android.app.*
-import android.os.Build
-import android.graphics.BitmapFactory
-import dimi.com.countryapp.ui.MainActivity
-import android.content.Context.NOTIFICATION_SERVICE
-import android.graphics.Color
-import android.text.TextUtils
-import androidx.media.app.NotificationCompat
 
 
 class GeofenceTransitionIntentService : IntentService("GeofenceService") {

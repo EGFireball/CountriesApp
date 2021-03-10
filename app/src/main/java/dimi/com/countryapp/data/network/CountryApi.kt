@@ -8,4 +8,7 @@ interface CountryApi {
 
     @GET("all")
     fun getAllCountries(): Call<List<CountryDto>>
+
+    @GET("all")
+    suspend fun getAllCountriesKoin(): List<CountryDto>
 }
